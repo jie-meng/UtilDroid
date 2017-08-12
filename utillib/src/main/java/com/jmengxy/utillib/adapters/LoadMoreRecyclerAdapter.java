@@ -1,4 +1,4 @@
-package com.jmengxy.utildroid.adapters;
+package com.jmengxy.utillib.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

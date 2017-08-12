@@ -1,4 +1,4 @@
-package com.jmengxy.utildroid.utils;
+package com.jmengxy.utillib.utils;
 
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
