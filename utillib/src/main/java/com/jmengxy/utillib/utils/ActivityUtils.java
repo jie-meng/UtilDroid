@@ -11,17 +11,33 @@ import android.support.v4.app.FragmentTransaction;
 
 public class ActivityUtils {
 
-    public static void addFragmentToActivity(@NonNull FragmentManager fragmentManager,
-                                             @NonNull Fragment fragment, int frameId) {
+    public static void addFragment(@NonNull FragmentManager fragmentManager,
+                                   @NonNull Fragment fragment, int frameId) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.add(frameId, fragment);
         transaction.commit();
     }
 
-    public static void replaceFragmentInActivity(@NonNull FragmentManager fragmentManager,
-                                                 @NonNull Fragment fragment, int frameId) {
+    public static void replaceFragment(@NonNull FragmentManager fragmentManager,
+                                       @NonNull Fragment fragment, int frameId) {
         FragmentTransaction transaction = fragmentManager.beginTransaction();
         transaction.replace(frameId, fragment);
+        transaction.commit();
+    }
+
+    public static void addFragmentAndAddToBackStack(@NonNull FragmentManager fragmentManager,
+                                                  @NonNull Fragment fragment, int frameId) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.add(frameId, fragment);
+        transaction.addToBackStack(null);
+        transaction.commit();
+    }
+
+    public static void replaceFragmentAndAddToBackStack(@NonNull FragmentManager fragmentManager,
+                                                      @NonNull Fragment fragment, int frameId) {
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(frameId, fragment);
+        transaction.addToBackStack(null);
         transaction.commit();
     }
 }
