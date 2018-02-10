@@ -36,4 +36,10 @@ public class DisplayUtils {
         float dp = px / ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
         return dp;
     }
+
+    public static float convertSpToPixel(Context context, int sp) {
+        Resources resources = context.getResources();
+        DisplayMetrics metrics = resources.getDisplayMetrics();
+        return sp * metrics.scaledDensity + 0.5f;
+    }
 }

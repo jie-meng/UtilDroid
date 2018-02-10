@@ -27,8 +27,14 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputFilter;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
+import android.text.style.URLSpan;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -360,5 +366,29 @@ public class UiUtils {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS, WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.setStatusBarColor(activity.getResources().getColor(R.color.cardview_dark_background));
+    }
+
+    public static void setClickableHtml(TextView textView, int htmlResId, Action1<String> htmlLinkClickListener) {
+        Spanned html = Html.fromHtml(textView.getContext().getString(htmlResId));
+        SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(html);
+        URLSpan[] urls = spannableStringBuilder.getSpans(0, html.length(), URLSpan.class);
+        for (URLSpan span : urls) {
+            makeLinkClickable(spannableStringBuilder, span, htmlLinkClickListener);
+        }
+        textView.setMovementMethod(LinkMovementMethod.getInstance());
+        textView.setText(spannableStringBuilder);
+    }
+
+    private static void makeLinkClickable(SpannableStringBuilder strBuilder, final URLSpan span, Action1<String> htmlLinkClickListener) {
+        int start = strBuilder.getSpanStart(span);
+        int end = strBuilder.getSpanEnd(span);
+        int flags = strBuilder.getSpanFlags(span);
+        ClickableSpan clickable = new ClickableSpan() {
+            public void onClick(View view) {
+                htmlLinkClickListener.apply(span.getURL());
+            }
+        };
+        strBuilder.setSpan(clickable, start, end, flags);
+        strBuilder.removeSpan(span);
     }
 }
