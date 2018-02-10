@@ -13,6 +13,8 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.support.annotation.ColorInt;
+import android.support.annotation.IdRes;
+import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.internal.BottomNavigationItemView;
@@ -154,15 +156,15 @@ public class UiUtils {
         }
     }
 
-    public static void showOrHideProgressView(Activity activity, boolean showOrHide) {
-        showOrHideProgressView(activity, activity.findViewById(android.R.id.content), showOrHide);
+    public static void showOrHideProgressView(Activity activity, boolean showOrHide, @LayoutRes int viewProgressBar, @IdRes int viewProgressBarId) {
+        showOrHideProgressView(activity, activity.findViewById(android.R.id.content), showOrHide, viewProgressBar, viewProgressBarId);
     }
 
-    public static void showOrHideProgressView(Context context, ViewGroup viewGroup, boolean showOrHide) {
-        View view = viewGroup.findViewById(R.id.progress_layout);
+    public static void showOrHideProgressView(Context context, ViewGroup viewGroup, boolean showOrHide, @LayoutRes int viewProgressBar, @IdRes int viewProgressBarId) {
+        View view = viewGroup.findViewById(viewProgressBarId);
         if (showOrHide) {
             if (view == null) {
-                View progressView = LayoutInflater.from(context).inflate(R.layout.view_progress_bar, viewGroup, false);
+                View progressView = LayoutInflater.from(context).inflate(viewProgressBar, viewGroup, false);
                 viewGroup.addView(progressView);
             }
         } else {
@@ -172,9 +174,9 @@ public class UiUtils {
         }
     }
 
-    public static boolean isShowingProgress(Activity activity) {
+    public static boolean isShowingProgress(Activity activity, @IdRes int viewProgressBarId) {
         ViewGroup viewGroup = activity.findViewById(android.R.id.content);
-        View view = viewGroup.findViewById(R.id.progress_layout);
+        View view = viewGroup.findViewById(viewProgressBarId);
         return view != null;
     }
 
