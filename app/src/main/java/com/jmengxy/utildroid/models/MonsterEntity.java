@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by jiemeng on 25/01/2018.
  */
 
-public class Monster implements Parcelable {
+public class MonsterEntity implements Parcelable {
     @SerializedName("id")
     String id;
 
@@ -22,10 +22,10 @@ public class Monster implements Parcelable {
     @SerializedName("defense")
     String defense;
 
-    public Monster() {
+    public MonsterEntity() {
     }
 
-    protected Monster(Parcel in) {
+    protected MonsterEntity(Parcel in) {
         name = in.readString();
         attack = in.readString();
         defense = in.readString();
@@ -43,15 +43,15 @@ public class Monster implements Parcelable {
         return 0;
     }
 
-    public static final Creator<Monster> CREATOR = new Creator<Monster>() {
+    public static final Creator<MonsterEntity> CREATOR = new Creator<MonsterEntity>() {
         @Override
-        public Monster createFromParcel(Parcel in) {
-            return new Monster(in);
+        public MonsterEntity createFromParcel(Parcel in) {
+            return new MonsterEntity(in);
         }
 
         @Override
-        public Monster[] newArray(int size) {
-            return new Monster[size];
+        public MonsterEntity[] newArray(int size) {
+            return new MonsterEntity[size];
         }
     };
 

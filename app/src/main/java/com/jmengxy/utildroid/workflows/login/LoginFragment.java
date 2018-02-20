@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 import com.jmengxy.utildroid.R;
 import com.jmengxy.utildroid.app.UtilApplication;
-import com.jmengxy.utildroid.models.User;
+import com.jmengxy.utildroid.models.LoginRequest;
 import com.jmengxy.utillib.utils.UiUtils;
 
 import javax.inject.Inject;
@@ -56,7 +56,7 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     }
 
     @State
-    User user;
+    LoginRequest loginRequest;
 
     @Inject
     LoginContract.Presenter presenter;
@@ -70,13 +70,13 @@ public class LoginFragment extends Fragment implements LoginContract.View {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (user == null) {
-            user = new User();
+        if (loginRequest == null) {
+            loginRequest = new LoginRequest();
         }
 
         DaggerLoginComponent.builder()
                 .appComponent(UtilApplication.get(getContext()).getAppComponent())
-                .loginModule(new LoginModule(this, user))
+                .loginModule(new LoginModule(this, loginRequest))
                 .build()
                 .inject(this);
     }

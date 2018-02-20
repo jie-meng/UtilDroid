@@ -2,7 +2,8 @@ package com.jmengxy.utildroid.workflows.login;
 
 import com.jmengxy.utildroid.account_hoster.AccountHoster;
 import com.jmengxy.utildroid.data.source.DataSource;
-import com.jmengxy.utildroid.models.User;
+import com.jmengxy.utildroid.models.LoginRequest;
+import com.jmengxy.utildroid.models.UserEntity;
 import com.jmengxy.utillib.schedulers.SchedulerProvider;
 
 import io.reactivex.SingleObserver;
@@ -19,26 +20,26 @@ public class LoginPresenter implements LoginContract.Presenter {
     private final DataSource dataSource;
     private final SchedulerProvider schedulerProvider;
     private final AccountHoster accountHoster;
-    private final User user;
+    private final LoginRequest loginRequest;
     private final CompositeDisposable compositeDisposable;
 
-    public LoginPresenter(LoginContract.View view, DataSource dataSource, SchedulerProvider schedulerProvider, AccountHoster accountHoster, User user) {
+    public LoginPresenter(LoginContract.View view, DataSource dataSource, SchedulerProvider schedulerProvider, AccountHoster accountHoster, LoginRequest loginRequest) {
         this.view = view;
         this.dataSource = dataSource;
         this.schedulerProvider = schedulerProvider;
         this.accountHoster = accountHoster;
-        this.user = user;
+        this.loginRequest = loginRequest;
         compositeDisposable = new CompositeDisposable();
     }
 
     @Override
     public void attach() {
-        if (user.getUsername() != null) {
-            view.showUsername(user.getUsername());
+        if (loginRequest.getUsername() != null) {
+            view.showUsername(loginRequest.getUsername());
         }
 
-        if (user.getPassword() != null) {
-            view.showPassword(user.getPassword());
+        if (loginRequest.getPassword() != null) {
+            view.showPassword(loginRequest.getPassword());
         }
     }
 
@@ -49,30 +50,30 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void setUsername(String username) {
-        user.setUsername(username);
+        loginRequest.setUsername(username);
     }
 
     @Override
     public void setPassword(String password) {
-        user.setPassword(password);
+        loginRequest.setPassword(password);
     }
 
     @Override
     public void gotoNext() {
         view.showProgress(true);
-        dataSource.login(user)
+        dataSource.login(loginRequest)
                 .subscribeOn(schedulerProvider.io())
                 .observeOn(schedulerProvider.ui())
-                .subscribe(new SingleObserver<User>() {
+                .subscribe(new SingleObserver<UserEntity>() {
                                @Override
                                public void onSubscribe(Disposable d) {
                                    compositeDisposable.add(d);
                                }
 
                                @Override
-                               public void onSuccess(User o) {
+                               public void onSuccess(UserEntity userEntity) {
                                    view.showProgress(false);
-                                   accountHoster.saveAccount(user, true);
+                                   accountHoster.saveAccount(userEntity, true);
                                    view.gotoNextPage();
                                }
 

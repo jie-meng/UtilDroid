@@ -8,7 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.jmengxy.utildroid.R;
-import com.jmengxy.utildroid.models.User;
+import com.jmengxy.utildroid.models.UserEntity;
 import com.jmengxy.utildroid.workflows.login.LoginActivity;
 
 /**
@@ -18,7 +18,7 @@ import com.jmengxy.utildroid.workflows.login.LoginActivity;
 public class AccountHoster {
     private final AccountManager accountManager;
     private final String accountType;
-    private User user;
+    private UserEntity userEntity;
 
     public AccountHoster(Context context) {
         this.accountManager = AccountManager.get(context);
@@ -31,24 +31,26 @@ public class AccountHoster {
         accountManager.addAccount(accountType, null, null, options, activity, null, null);
     }
 
-    public void saveAccount(User user, boolean persistent) {
+    public void saveAccount(UserEntity userEntity, boolean persistent) {
         deleteAccount();
         if (persistent) {
-            Account account = new Account(user.getUsername(), accountType);
+            Account account = new Account(userEntity.getUsername(), accountType);
             Bundle userdata = new Bundle();
-            userdata.putString(AccountAuthenticator.KEY_ACCESS_TOKEN, user.getAccessToken());
-            userdata.putString(AccountAuthenticator.KEY_USERNAME, user.getUsername());
-            userdata.putString(AccountAuthenticator.KEY_NICKNAME, user.getNickname());
-            userdata.putString(AccountAuthenticator.KEY_EMAIL, user.getEmail());
-            userdata.putString(AccountAuthenticator.KEY_MOBILE_NUMBER, user.getMobileNumber());
-            accountManager.addAccountExplicitly(account, user.getPassword(), userdata);
+            userdata.putString(AccountAuthenticator.KEY_ACCESS_TOKEN, userEntity.getAccessToken());
+            userdata.putString(AccountAuthenticator.KEY_REFRESH_TOKEN, userEntity.getRefreshToken());
+            userdata.putString(AccountAuthenticator.KEY_USERNAME, userEntity.getUsername());
+            userdata.putString(AccountAuthenticator.KEY_NICKNAME, userEntity.getNickname());
+            userdata.putString(AccountAuthenticator.KEY_EMAIL, userEntity.getEmail());
+            userdata.putString(AccountAuthenticator.KEY_MOBILE_NUMBER, userEntity.getMobileNumber());
+            userdata.putString(AccountAuthenticator.KEY_CLIENT_ID, userEntity.getClientId());
+            accountManager.addAccountExplicitly(account, userEntity.getPassword(), userdata);
         } else {
-            this.user = user;
+            this.userEntity = userEntity;
         }
     }
 
     public void deleteAccount() {
-        this.user = null;
+        this.userEntity = null;
         Account[] accounts = accountManager.getAccountsByType(accountType);
         for (Account account : accounts) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
@@ -63,13 +65,15 @@ public class AccountHoster {
         return accountManager.getAccountsByType(accountType).length > 0;
     }
 
-    public void updateAccount(User user) {
+    public void updateAccount(UserEntity userEntity) {
         if (isLoggedIn()) {
             Account account = accountManager.getAccountsByType(accountType)[0];
-            accountManager.setUserData(account, AccountAuthenticator.KEY_USERNAME, user.getUsername());
-            accountManager.setUserData(account, AccountAuthenticator.KEY_NICKNAME, user.getNickname());
-            accountManager.setUserData(account, AccountAuthenticator.KEY_EMAIL, user.getEmail());
-            accountManager.setUserData(account, AccountAuthenticator.KEY_MOBILE_NUMBER, user.getMobileNumber());
+            accountManager.setUserData(account, AccountAuthenticator.KEY_USERNAME, userEntity.getUsername());
+            accountManager.setUserData(account, AccountAuthenticator.KEY_NICKNAME, userEntity.getNickname());
+            accountManager.setUserData(account, AccountAuthenticator.KEY_EMAIL, userEntity.getEmail());
+            accountManager.setUserData(account, AccountAuthenticator.KEY_MOBILE_NUMBER, userEntity.getMobileNumber());
+            accountManager.setUserData(account, AccountAuthenticator.KEY_CLIENT_ID, userEntity.getClientId());
+            accountManager.setUserData(account, AccountAuthenticator.KEY_REFRESH_TOKEN, userEntity.getRefreshToken());
         }
     }
 
@@ -77,21 +81,24 @@ public class AccountHoster {
         if (isLoggedIn()) {
             Account account = accountManager.getAccountsByType(accountType)[0];
             accountManager.setUserData(account, AccountAuthenticator.KEY_ACCESS_TOKEN, accessToken);
-        } else if (user != null) {
-            user.setAccessToken(accessToken);
+        } else if (userEntity != null) {
+            userEntity.setAccessToken(accessToken);
         }
     }
 
-    public User getAccount() {
+    public UserEntity getAccount() {
         if (isLoggedIn()) {
-            User user = new User();
+            UserEntity userEntity = new UserEntity();
             Account account = accountManager.getAccountsByType(accountType)[0];
-            user.setUsername(accountManager.getUserData(account, AccountAuthenticator.KEY_USERNAME));
-            user.setNickname(accountManager.getUserData(account, AccountAuthenticator.KEY_NICKNAME));
-            user.setEmail(accountManager.getUserData(account, AccountAuthenticator.KEY_EMAIL));
-            user.setMobileNumber(accountManager.getUserData(account, AccountAuthenticator.KEY_MOBILE_NUMBER));
+            userEntity.setUsername(accountManager.getUserData(account, AccountAuthenticator.KEY_USERNAME));
+            userEntity.setNickname(accountManager.getUserData(account, AccountAuthenticator.KEY_NICKNAME));
+            userEntity.setEmail(accountManager.getUserData(account, AccountAuthenticator.KEY_EMAIL));
+            userEntity.setMobileNumber(accountManager.getUserData(account, AccountAuthenticator.KEY_MOBILE_NUMBER));
+            userEntity.setClientId(accountManager.getUserData(account, AccountAuthenticator.KEY_CLIENT_ID));
+            userEntity.setAccessToken(accountManager.getUserData(account, AccountAuthenticator.KEY_ACCESS_TOKEN));
+            userEntity.setRefreshToken(accountManager.getUserData(account, AccountAuthenticator.KEY_REFRESH_TOKEN));
 
-            return user;
+            return userEntity;
         } else {
             return null;
         }
@@ -105,9 +112,34 @@ public class AccountHoster {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        } else if (user != null) {
-            token = user.getAccessToken();
+        } else if (userEntity != null) {
+            token = userEntity.getAccessToken();
         }
         return token;
+    }
+
+    public String getRefreshToken() {
+        String token = null;
+        if (isLoggedIn()) {
+            try {
+                token = accountManager.getUserData(accountManager.getAccountsByType(accountType)[0], AccountAuthenticator.KEY_REFRESH_TOKEN);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else if (userEntity != null) {
+            token = userEntity.getRefreshToken();
+        }
+        return token;
+    }
+
+    public String getClientId() {
+        String clientId = null;
+        if (isLoggedIn()) {
+            clientId = getAccount().getClientId();
+        } else if (userEntity != null) {
+            clientId = userEntity.getClientId();
+        }
+
+        return clientId;
     }
 }

@@ -9,7 +9,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by jiemeng on 03/02/2018.
  */
 
-public class User implements Parcelable {
+public class UserEntity implements Parcelable {
 
     @SerializedName("username")
     String username;
@@ -26,19 +26,27 @@ public class User implements Parcelable {
     @SerializedName("mobile_number")
     String mobileNumber;
 
+    @SerializedName("client_id")
+    String clientId;
+
     @SerializedName("access_token")
     String accessToken;
 
-    public User() {
+    @SerializedName("refresh_token")
+    private String refreshToken;
+
+    public UserEntity() {
     }
 
-    protected User(Parcel in) {
+    protected UserEntity(Parcel in) {
         username = in.readString();
         nickname = in.readString();
         password = in.readString();
         email = in.readString();
         mobileNumber = in.readString();
+        clientId = in.readString();
         accessToken = in.readString();
+        refreshToken = in.readString();
     }
 
     @Override
@@ -48,7 +56,9 @@ public class User implements Parcelable {
         dest.writeString(password);
         dest.writeString(email);
         dest.writeString(mobileNumber);
+        dest.writeString(clientId);
         dest.writeString(accessToken);
+        dest.writeString(refreshToken);
     }
 
     @Override
@@ -56,15 +66,15 @@ public class User implements Parcelable {
         return 0;
     }
 
-    public static final Creator<User> CREATOR = new Creator<User>() {
+    public static final Creator<UserEntity> CREATOR = new Creator<UserEntity>() {
         @Override
-        public User createFromParcel(Parcel in) {
-            return new User(in);
+        public UserEntity createFromParcel(Parcel in) {
+            return new UserEntity(in);
         }
 
         @Override
-        public User[] newArray(int size) {
-            return new User[size];
+        public UserEntity[] newArray(int size) {
+            return new UserEntity[size];
         }
     };
 
@@ -108,11 +118,27 @@ public class User implements Parcelable {
         this.mobileNumber = mobileNumber;
     }
 
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
+
     public String getAccessToken() {
         return accessToken;
     }
 
     public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }

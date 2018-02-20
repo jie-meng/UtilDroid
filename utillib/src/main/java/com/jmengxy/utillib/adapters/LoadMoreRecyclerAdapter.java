@@ -2,12 +2,18 @@ package com.jmengxy.utillib.adapters;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
+import android.support.v7.util.DiffUtil;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
+import io.reactivex.Observable;
+import io.reactivex.subjects.PublishSubject;
+import io.reactivex.subjects.Subject;
 
 /**
  * Created by jiemeng on 12/08/2017.
@@ -15,93 +21,115 @@ import java.util.List;
 
 public class LoadMoreRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    public interface OnLoadMoreListener {
-        void onLoadMore();
-    }
-
-    public interface ViewHolderManger {
+    public interface ViewHolderManager {
         RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent);
 
         RecyclerView.ViewHolder onCreateLoadingViewHolder(ViewGroup parent);
 
+        RecyclerView.ViewHolder onCreateNoMoreViewHolder(ViewGroup parent);
+
         void onBindItemViewHolder(RecyclerView.ViewHolder holder, Object data);
 
         void onBindLoadingViewHolder(RecyclerView.ViewHolder holder);
+
+        void onBindNoMoreViewHolder(RecyclerView.ViewHolder holder);
     }
 
     private static final int VISIBLE_THRESHOLD = 1;
 
     private final int VIEW_TYPE_ITEM = 0;
     private final int VIEW_TYPE_LOADING = 1;
+    private final int VIEW_TYPE_NO_MORE = 2;
 
-    private ViewHolderManger viewHolderManger;
-    private OnLoadMoreListener onLoadMoreListener;
+    private ViewHolderManager viewHolderManager;
 
     private Context context = null;
     private RecyclerView recyclerView;
 
     private List<T> dataList = new ArrayList<>();
     private boolean loading = false;
+    private boolean noMore = false;
 
-    public void setOnLoadMoreListener(OnLoadMoreListener onLoadMoreListener) {
-        this.onLoadMoreListener = onLoadMoreListener;
-    }
+    private Subject<Object> loadMoreSubject;
 
-    public LoadMoreRecyclerAdapter(@NonNull Context context, @NonNull RecyclerView recyclerView, @NonNull ViewHolderManger viewHolderManger) {
+    public LoadMoreRecyclerAdapter(@NonNull Context context, @NonNull RecyclerView recyclerView, @NonNull ViewHolderManager viewHolderManager) {
         this.context = context;
         this.recyclerView = recyclerView;
         this.recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        this.viewHolderManger = viewHolderManger;
+        this.viewHolderManager = viewHolderManager;
 
         initLoadMoreListener();
         recyclerView.setAdapter(this);
+        loadMoreSubject = PublishSubject.create();
+    }
+
+    public Observable<Object> onLoadMore() {
+        return loadMoreSubject.throttleFirst(2, TimeUnit.SECONDS);
     }
 
     public void setData(@NonNull List<T> dataList) {
-        finishLoading();
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(
+                new DiffCallback<>(this.dataList, dataList), true);
+        diffResult.dispatchUpdatesTo(this);
 
-        this.dataList.clear();
-        this.dataList.addAll(dataList);
-        notifyDataSetChanged();
+        this.dataList = dataList;
     }
 
     public void addData(@NonNull List<T> dataList) {
-        finishLoading();
-
-        int previousItemsCount = this.dataList.size();
-        this.dataList.addAll(dataList);
-        if (dataList.size() > 0) {
-            notifyItemRangeInserted(previousItemsCount, dataList.size());
+        if (dataList == null || dataList.isEmpty()) {
+            return;
         }
+
+        List<T> tmpList = new ArrayList<>();
+        tmpList.addAll(this.dataList);
+        tmpList.addAll(dataList);
+
+        DiffUtil.DiffResult diffResult = DiffUtil.calculateDiff(
+                new DiffCallback<>(this.dataList, tmpList), true);
+        diffResult.dispatchUpdatesTo(this);
+
+        this.dataList = tmpList;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == VIEW_TYPE_LOADING) {
-            return viewHolderManger.onCreateLoadingViewHolder(parent);
+            return viewHolderManager.onCreateLoadingViewHolder(parent);
+        } else if (viewType == VIEW_TYPE_NO_MORE) {
+            return viewHolderManager.onCreateNoMoreViewHolder(parent);
         } else {
-            return viewHolderManger.onCreateItemViewHolder(parent);
+            return viewHolderManager.onCreateItemViewHolder(parent);
         }
     }
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (getItemViewType(position) == VIEW_TYPE_LOADING) {
-            viewHolderManger.onBindLoadingViewHolder(holder);
+            viewHolderManager.onBindLoadingViewHolder(holder);
+        } else if (getItemViewType(position) == VIEW_TYPE_NO_MORE) {
+            viewHolderManager.onBindNoMoreViewHolder(holder);
         } else {
-            viewHolderManger.onBindItemViewHolder(holder, dataList.get(position));
+            viewHolderManager.onBindItemViewHolder(holder, dataList.get(position));
         }
     }
 
     @Override
     public int getItemViewType(int position) {
-        return position < dataList.size() ? VIEW_TYPE_ITEM : VIEW_TYPE_LOADING;
+        if (noMore) {
+            return position < dataList.size() ? VIEW_TYPE_ITEM : VIEW_TYPE_NO_MORE;
+        } else {
+            return position < dataList.size() ? VIEW_TYPE_ITEM : VIEW_TYPE_LOADING;
+        }
     }
 
     @Override
     public int getItemCount() {
-        int loadingCount = loading ? 1 : 0;
-        return dataList.size() + loadingCount;
+        if (noMore) {
+            return dataList.size() + 1;
+        } else {
+            int loadingCount = loading ? 1 : 0;
+            return dataList.size() + loadingCount;
+        }
     }
 
     protected Context getContext() {
@@ -118,28 +146,40 @@ public class LoadMoreRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerVie
                     super.onScrolled(recyclerView, dx, dy);
                     int totalItemCount = linearLayoutManager.getItemCount();
                     int lastVisibleItem = linearLayoutManager.findLastCompletelyVisibleItemPosition();
-                    if (!loading && totalItemCount <= (lastVisibleItem + VISIBLE_THRESHOLD)) {
-                        if (onLoadMoreListener != null) {
-                            startLoading();
-                            onLoadMoreListener.onLoadMore();
-                        }
+                    if (!noMore && !loading && totalItemCount <= (lastVisibleItem + VISIBLE_THRESHOLD)) {
+                        loadMoreSubject.onNext(new Object());
                     }
                 }
             });
         }
     }
 
-    private void finishLoading() {
-        if (loading) {
-            loading = false;
-            notifyItemRemoved(dataList.size());
-        }
+    public void finishLoading() {
+        recyclerView.post(() -> {
+            if (loading) {
+                loading = false;
+                notifyItemRemoved(dataList.size());
+            }
+        });
     }
 
-    private void startLoading() {
-        if (!loading) {
-            loading = true;
-            notifyItemInserted(dataList.size());
+    public void startLoading() {
+        recyclerView.post(() -> {
+            if (!loading) {
+                loading = true;
+                notifyItemInserted(dataList.size());
+            }
+        });
+    }
+
+    public void setNoMore(boolean noMore) {
+        if (this.noMore != noMore) {
+            this.noMore = noMore;
+            if (noMore) {
+                notifyItemInserted(dataList.size());
+            } else {
+                notifyItemRemoved(dataList.size());
+            }
         }
     }
 }

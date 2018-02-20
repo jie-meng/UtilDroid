@@ -2,10 +2,10 @@ package com.jmengxy.utildroid.data.source;
 
 import android.support.annotation.NonNull;
 
-
 import com.jmengxy.utildroid.data.source.local.LocalDataSource;
 import com.jmengxy.utildroid.data.source.remote.RemoteDataSource;
-import com.jmengxy.utildroid.models.User;
+import com.jmengxy.utildroid.models.LoginRequest;
+import com.jmengxy.utildroid.models.UserEntity;
 
 import javax.inject.Inject;
 
@@ -30,7 +30,7 @@ public class DataRepository implements DataSource {
     }
 
     @Override
-    public Single<User> login(User user) {
-        return remoteDataSource.login(user);
+    public Single<UserEntity> login(LoginRequest loginRequest) {
+        return remoteDataSource.login(loginRequest);
     }
 }

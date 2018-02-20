@@ -2,7 +2,8 @@ package com.jmengxy.utildroid.workflows.login;
 
 import com.jmengxy.utildroid.account_hoster.AccountHoster;
 import com.jmengxy.utildroid.data.source.DataSource;
-import com.jmengxy.utildroid.models.User;
+import com.jmengxy.utildroid.models.LoginRequest;
+import com.jmengxy.utildroid.models.UserEntity;
 import com.jmengxy.utillib.schedulers.SchedulerProvider;
 
 import dagger.Module;
@@ -15,15 +16,15 @@ import dagger.Provides;
 @Module
 class LoginModule {
     private final LoginContract.View view;
-    private User user;
+    private LoginRequest loginRequest;
 
-    public LoginModule(LoginContract.View view, User user) {
+    public LoginModule(LoginContract.View view, LoginRequest loginRequest) {
         this.view = view;
-        this.user = user;
+        this.loginRequest = loginRequest;
     }
 
     @Provides
     LoginContract.Presenter providePresenter(DataSource dataSource, SchedulerProvider schedulerProvider, AccountHoster accountHoster) {
-        return new LoginPresenter(view, dataSource, schedulerProvider, accountHoster, user);
+        return new LoginPresenter(view, dataSource, schedulerProvider, accountHoster, loginRequest);
     }
 }

@@ -1,6 +1,6 @@
 package com.jmengxy.utildroid.data.source.local;
 
-import com.jmengxy.utildroid.models.Monster;
+import com.jmengxy.utildroid.models.MonsterEntity;
 
 /**
  * Created by jiemeng on 25/01/2018.
@@ -8,14 +8,14 @@ import com.jmengxy.utildroid.models.Monster;
 
 public class LocalDataSource {
 
-    private Monster monster = new Monster();
+    private MonsterEntity monsterEntity = new MonsterEntity();
 
-    public Monster getMonster() {
+    public MonsterEntity getMonsterEntity() {
         //Pretend to get data from db, actually you may retrieve data with retrofit or okhttp here
-        return monster;
+        return monsterEntity;
     }
 
-    public void updateUser(Monster monster) {
-        this.monster = monster;
+    public void updateUser(MonsterEntity monsterEntity) {
+        this.monsterEntity = monsterEntity;
     }
 }

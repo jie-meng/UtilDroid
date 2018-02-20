@@ -1,6 +1,7 @@
 package com.jmengxy.utildroid.data.source;
 
-import com.jmengxy.utildroid.models.User;
+import com.jmengxy.utildroid.models.LoginRequest;
+import com.jmengxy.utildroid.models.UserEntity;
 
 import io.reactivex.Single;
 
@@ -10,5 +11,5 @@ import io.reactivex.Single;
 
 public interface DataSource {
 
-    Single<User> login(User user);
+    Single<UserEntity> login(LoginRequest loginRequest);
 }

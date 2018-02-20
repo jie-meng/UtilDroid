@@ -1,0 +1,17 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+    "code": "0",
+    "message": "",
+    "data": {
+               "username": "jie-meng",
+               "password": "123456",
+               "nickname": "Jie",
+               "email": "jmengxy@gmail.com",
+               "mobile_number": "87654321",
+               "client_id": "jie-meng-123",
+               "access_token": "access_token123",
+               "refresh_token": "refresh_token456" 
+           }
+}

@@ -18,10 +18,12 @@ import com.jmengxy.utildroid.workflows.login.LoginActivity;
 public class AccountAuthenticator extends AbstractAccountAuthenticator {
 
     static final String KEY_ACCESS_TOKEN = "key_access_token";
+    static final String KEY_REFRESH_TOKEN = "key_refresh_token";
     static final String KEY_USERNAME = "key_username";
     static final String KEY_NICKNAME = "key_nickname";
     static final String KEY_EMAIL = "key_email";
     static final String KEY_MOBILE_NUMBER = "key_mobile_number";
+    static final String KEY_CLIENT_ID = "key_client_id";
 
     private Context context;
 
