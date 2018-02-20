@@ -12,4 +12,6 @@ import io.reactivex.Single;
 public interface DataSource {
 
     Single<UserEntity> login(LoginRequest loginRequest);
+
+    Single<Object> logout();
 }

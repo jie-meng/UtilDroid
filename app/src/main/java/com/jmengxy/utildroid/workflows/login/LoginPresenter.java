@@ -1,5 +1,7 @@
 package com.jmengxy.utildroid.workflows.login;
 
+import android.text.TextUtils;
+
 import com.jmengxy.utildroid.account_hoster.AccountHoster;
 import com.jmengxy.utildroid.data.source.DataSource;
 import com.jmengxy.utildroid.models.LoginRequest;
@@ -22,6 +24,9 @@ public class LoginPresenter implements LoginContract.Presenter {
     private final AccountHoster accountHoster;
     private final LoginRequest loginRequest;
     private final CompositeDisposable compositeDisposable;
+
+    private boolean usernameCheckResult;
+    private boolean passwordCheckResult;
 
     public LoginPresenter(LoginContract.View view, DataSource dataSource, SchedulerProvider schedulerProvider, AccountHoster accountHoster, LoginRequest loginRequest) {
         this.view = view;
@@ -59,7 +64,31 @@ public class LoginPresenter implements LoginContract.Presenter {
     }
 
     @Override
-    public void gotoNext() {
+    public void checkUsername() {
+        usernameCheckResult = loginRequest.getUsername() != null && loginRequest.getUsername().length() > 5;
+        view.showCheckUsernameResult(usernameCheckResult);
+    }
+
+    @Override
+    public void checkPassword() {
+        passwordCheckResult = loginRequest.getPassword() != null && loginRequest.getPassword().length() > 7;
+        view.showCheckPasswordResult(passwordCheckResult);
+    }
+
+    @Override
+    public void nextStepEnableCheck() {
+        view.enableLoginButton(!(TextUtils.isEmpty(loginRequest.getUsername()) || TextUtils.isEmpty(loginRequest.getPassword())));
+    }
+
+    @Override
+    public void login() {
+        checkUsername();
+        checkPassword();
+
+        if (!usernameCheckResult || !passwordCheckResult) {
+            return;
+        }
+
         view.showProgress(true);
         dataSource.login(loginRequest)
                 .subscribeOn(schedulerProvider.io())

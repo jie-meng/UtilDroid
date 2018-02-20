@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.jmengxy.utildroid.workflows.bankcard.BankCardFragment;
+import com.jmengxy.utildroid.workflows.bankcard.BankCardsFragment;
 import com.jmengxy.utildroid.workflows.discover.DiscoverFragment;
 import com.jmengxy.utildroid.workflows.profile.ProfileFragment;
 
@@ -37,7 +37,7 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter {
             case Discover:
                 return DiscoverFragment.newInstance();
             case BankCard:
-                return BankCardFragment.newInstance();
+                return BankCardsFragment.newInstance();
             case Profile:
                 return ProfileFragment.newInstance();
             default:

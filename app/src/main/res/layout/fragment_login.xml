@@ -89,13 +89,13 @@
     </android.support.design.widget.AppBarLayout>
 
     <Button
-        android:id="@+id/btn_next"
+        android:id="@+id/btn_login"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_gravity="bottom"
         android:background="@color/dark_green"
         android:foreground="?attr/selectableItemBackgroundBorderless"
-        android:text="@string/next"
+        android:text="@string/login"
         android:textColor="@color/white"
         android:textSize="18sp" />
 </FrameLayout>

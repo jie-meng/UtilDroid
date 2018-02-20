@@ -1,4 +1,4 @@
-package com.jmengxy.utildroid.workflows.discover;
+package com.jmengxy.utildroid.workflows.bankcard;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -18,22 +18,22 @@ import butterknife.Unbinder;
  * Created by jiemeng on 03/02/2018.
  */
 
-public class DiscoverFragment extends Fragment {
+public class BankCardsFragment extends Fragment {
 
     private Unbinder unbinder;
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    public static DiscoverFragment newInstance() {
-        DiscoverFragment fragment = new DiscoverFragment();
+    public static BankCardsFragment newInstance() {
+        BankCardsFragment fragment = new BankCardsFragment();
         return fragment;
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_discover, container, false);
+        View rootView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_bankcards, container, false);
         unbinder = ButterKnife.bind(this, rootView);
         setHasOptionsMenu(true);
         init();

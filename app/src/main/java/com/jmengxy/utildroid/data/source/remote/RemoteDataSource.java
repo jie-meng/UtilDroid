@@ -27,6 +27,9 @@ public class RemoteDataSource {
     private interface UserApi {
         @POST("user/login")
         Single<Response<UserEntity>> login(@Body LoginRequest loginRequest);
+
+        @POST("user/logout")
+        Single<Response<Object>> logout();
     }
 
     private final EventBus eventBus;
@@ -41,6 +44,12 @@ public class RemoteDataSource {
         return userApi
                 .login(loginRequest)
                 .compose(unwrap(UserEntity.class));
+    }
+
+    public Single<Object> logout() {
+        return userApi
+                .logout()
+                .compose(unwrap(Object.class));
     }
 
     private <T> SingleTransformer<Response<T>, Response<T>> checkAuthFailure(Class<T> clazz) {

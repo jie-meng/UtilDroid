@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:layout="@layout/preference_category_layout"
+        android:title="@string/general">
+        <Preference
+            android:key="username"
+            android:layout="@layout/preference_item"
+            android:title="@string/username" />
+        <Preference
+            android:key="password"
+            android:layout="@layout/preference_item"
+            android:title="@string/password" />
+    </PreferenceCategory>
+    <PreferenceCategory
+        android:layout="@layout/preference_category_layout"
+        android:title="@string/personal_info">
+        <Preference
+            android:key="nickname"
+            android:layout="@layout/preference_item"
+            android:title="@string/nickname" />
+        <Preference
+            android:key="mobile_number"
+            android:layout="@layout/preference_item"
+            android:title="@string/mobile_number" />
+        <Preference
+            android:key="email"
+            android:layout="@layout/preference_item"
+            android:title="@string/email" />
+    </PreferenceCategory>
+</PreferenceScreen>

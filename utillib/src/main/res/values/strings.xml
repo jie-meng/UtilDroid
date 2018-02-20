@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">utillib</string>
+    <string name="close">CLOSE</string>
 </resources>

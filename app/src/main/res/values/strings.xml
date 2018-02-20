@@ -10,4 +10,15 @@
     <string name="username">Username</string>
     <string name="password">Password</string>
     <string name="register">Register</string>
+    <string name="invalid_password">Invalid password</string>
+    <string name="invalid_username">Invalid username</string>
+    <string name="logout">Logout</string>
+    <string name="general">General</string>
+    <string name="nickname">Nickname</string>
+    <string name="mobile_number">Mobile Number</string>
+    <string name="personal_info">Personal Info</string>
+    <string name="email">Email</string>
+    <string name="logout_message">Are you sure you want to log out?</string>
+    <string name="ok">OK</string>
+    <string name="cancel">CANCEL</string>
 </resources>

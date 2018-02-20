@@ -18,4 +18,8 @@ public class LocalDataSource {
     public void updateUser(MonsterEntity monsterEntity) {
         this.monsterEntity = monsterEntity;
     }
+
+    public void clearAllData() {
+
+    }
 }

@@ -134,7 +134,7 @@ public class UiUtils {
         input.toggleSoftInput(force ? InputMethodManager.SHOW_FORCED : InputMethodManager.SHOW_IMPLICIT, InputMethodManager.HIDE_IMPLICIT_ONLY);
     }
 
-    public static void setViewEnable(View view, boolean enable) {
+    public static void setViewClickable(View view, boolean enable) {
         if (view == null) {
             return;
         }

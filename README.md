@@ -1,6 +1,6 @@
 # UtilDroid -- Util class and useful compound views for android.
 
-## How to import UtilDroid into Android project
+## How to import UtilDroid library into Android project
 
 1. Add the JitPack repository to your build file
     - gradle
@@ -45,3 +45,16 @@
             <version>V1.0.2</version>
         </dependency>
         ```
+
+## How to run UtilDroid Application
+
+Execute command line (Make sure you have npm installed)
+
+```
+npm install -g mockserver
+
+./mockserver
+
+```
+
+Run UtilDroid on emulator with Android Studio

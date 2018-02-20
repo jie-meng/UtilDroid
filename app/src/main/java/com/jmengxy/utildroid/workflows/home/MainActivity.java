@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
 import com.jmengxy.utildroid.R;
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         setTheme(R.style.AppThemeBase);
+        UiUtils.setStatusBarColor(this, ContextCompat.getColor(this, R.color.dark_green));
         setContentView(R.layout.container_layout);
         ButterKnife.bind(this);
     }

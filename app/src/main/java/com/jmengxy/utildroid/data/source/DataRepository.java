@@ -33,4 +33,13 @@ public class DataRepository implements DataSource {
     public Single<UserEntity> login(LoginRequest loginRequest) {
         return remoteDataSource.login(loginRequest);
     }
+
+    @Override
+    public Single<Object> logout() {
+        return remoteDataSource
+                .logout()
+                .doFinally(() -> {
+                    localDataSource.clearAllData();
+                });
+    }
 }

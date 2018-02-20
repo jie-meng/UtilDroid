@@ -18,6 +18,12 @@ public interface LoginContract {
         void gotoNextPage();
 
         void showError(int code, String message);
+
+        void showCheckUsernameResult(boolean passOrFail);
+
+        void showCheckPasswordResult(boolean passOrFail);
+
+        void enableLoginButton(boolean enable);
     }
 
     interface Presenter extends BasePresenter {
@@ -25,6 +31,12 @@ public interface LoginContract {
 
         void setPassword(String password);
 
-        void gotoNext();
+        void checkUsername();
+
+        void checkPassword();
+
+        void nextStepEnableCheck();
+
+        void login();
     }
 }
