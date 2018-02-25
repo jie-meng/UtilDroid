@@ -2,6 +2,8 @@ package com.jmengxy.utildroid.utils.eventbus;
 
 import android.content.Context;
 
+import com.jmengxy.utillib.architecture.eventbus.EventBus;
+
 /**
  * Created by jiemeng on 29/12/2017.
  */

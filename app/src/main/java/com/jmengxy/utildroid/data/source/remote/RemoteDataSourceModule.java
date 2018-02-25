@@ -5,7 +5,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import com.jmengxy.utildroid.account_hoster.AccountHoster;
-import com.jmengxy.utildroid.utils.eventbus.EventBus;
+import com.jmengxy.utillib.architecture.eventbus.EventBus;
 
 import java.util.concurrent.TimeUnit;
 

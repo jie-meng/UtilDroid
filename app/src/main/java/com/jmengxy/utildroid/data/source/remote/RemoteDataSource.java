@@ -1,9 +1,12 @@
 package com.jmengxy.utildroid.data.source.remote;
 
 
+import com.jmengxy.utildroid.models.GameEntity;
 import com.jmengxy.utildroid.models.LoginRequest;
 import com.jmengxy.utildroid.models.UserEntity;
-import com.jmengxy.utildroid.utils.eventbus.EventBus;
+import com.jmengxy.utillib.architecture.eventbus.EventBus;
+
+import java.util.List;
 
 import javax.inject.Singleton;
 
@@ -13,6 +16,7 @@ import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
 import retrofit2.Retrofit;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 import static com.jmengxy.utildroid.utils.eventbus.RemoteEvent.authTokenInvalidEvent;
@@ -32,12 +36,19 @@ public class RemoteDataSource {
         Single<Response<Object>> logout();
     }
 
+    private interface GameApi {
+        @GET("game/list")
+        Single<Response<List<GameEntity>>> getGames();
+    }
+
     private final EventBus eventBus;
     private final UserApi userApi;
+    private final GameApi gameApi;
 
     public RemoteDataSource(Retrofit retrofit, EventBus eventBus) {
         this.eventBus = eventBus;
         this.userApi = retrofit.create(UserApi.class);
+        this.gameApi = retrofit.create(GameApi.class);
     }
 
     public Single<UserEntity> login(LoginRequest loginRequest) {
@@ -50,6 +61,15 @@ public class RemoteDataSource {
         return userApi
                 .logout()
                 .compose(unwrap(Object.class));
+    }
+
+    public Single<List<GameEntity>> getGames() {
+        Object t1 = checkAuthFailure(List.class);
+        Object t2 = unwrap(List.class);
+        return gameApi
+                .getGames()
+                .compose((SingleTransformer<? super Response<List<GameEntity>>, ? extends Response<List<GameEntity>>>) t1)
+                .compose((SingleTransformer<? super Response<List<GameEntity>>, ? extends List<GameEntity>>) t2);
     }
 
     private <T> SingleTransformer<Response<T>, Response<T>> checkAuthFailure(Class<T> clazz) {

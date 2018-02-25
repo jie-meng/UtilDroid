@@ -53,7 +53,7 @@ Execute command line (Make sure you have npm installed)
 ```
 npm install -g mockserver
 
-./mockserver
+./mockserver.sh
 
 ```
 

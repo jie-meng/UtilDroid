@@ -5,7 +5,8 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.jmengxy.utildroid.workflows.bankcard.BankCardsFragment;
-import com.jmengxy.utildroid.workflows.discover.DiscoverFragment;
+import com.jmengxy.utildroid.workflows.functions.FunctionsFragment;
+import com.jmengxy.utildroid.workflows.game.list.GameListFragment;
 import com.jmengxy.utildroid.workflows.profile.ProfileFragment;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter {
     private final List<TAB> tabs;
 
     public enum TAB {
-        Discover, BankCard, Profile
+        Games, Discover, BankCard, Profile
     }
 
     public HomeViewPagerAdapter(FragmentManager fm, List<TAB> tabs) {
@@ -34,8 +35,10 @@ public class HomeViewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public Fragment getItem(int position) {
         switch (tabs.get(position)) {
+            case Games:
+                return GameListFragment.newInstance();
             case Discover:
-                return DiscoverFragment.newInstance();
+                return FunctionsFragment.newInstance();
             case BankCard:
                 return BankCardsFragment.newInstance();
             case Profile:

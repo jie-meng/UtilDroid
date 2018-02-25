@@ -1,0 +1,58 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+    "code": "0",
+    "message": "",
+    "data": 
+           [
+                {
+                    "id": "001",
+                    "name": "The Legend of Zelda",
+                    "image-url": "https://cdn.images.dailystar.co.uk/dynamic/184/photos/778000/620x/5a745632e74a2_LegendofZeldaonNintendoSwitchsettomakeBIGchangeafterBreathoftheWildsuccess619697.jpg",
+                    "price": 3000
+                },
+
+                {
+                    "id": "002",
+                    "name": "Castlevania",
+                    "image-url": "https://cdn.vox-cdn.com/thumbor/qKVVkpoEtDDnoKhebiPi76XZza8=/0x0:1600x900/1200x800/filters:focal(672x322:928x578)/cdn.vox-cdn.com/uploads/chorus_image/image/53154657/349413_SotN.0.jpg",
+                    "price": 1900
+                },
+
+                {
+                    "id": "003",
+                    "name": "Metroid",
+                    "image-url": "https://metroidsamusreturns.nintendo.com/assets/icons/share_icon.jpg",
+                    "price": 2200
+                },
+
+                {
+                    "id": "004",
+                    "name": "Final Fantasy VII",
+                    "image-url": "https://cdn.images.express.co.uk/img/dynamic/galleries/x701/238234.jpg",
+                    "price": 2900
+                },
+
+                {
+                    "id": "005",
+                    "name": "Dragon Quest Heros",
+                    "image-url": "http://cdn.akamai.steamstatic.com/steam/apps/410850/header.jpg?t=1512022482",
+                    "price": 1500
+                },
+
+                {
+                    "id": "006",
+                    "name": "Fire Emblem Heroes",
+                    "image-url": "https://cdn.images.express.co.uk/img/dynamic/143/590x/Fire-Emblem-Heroes-763302.jpg",
+                    "price": 2000
+                },
+
+                {
+                    "id": "003",
+                    "name": "Golden Sun",
+                    "image-url": "http://forum.goldensunhacking.net/Themes/Golden_Sun_-_Dark_Dawn_Theme/images/logo.png",
+                    "price": 2000
+                }
+           ]
+}

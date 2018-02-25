@@ -4,8 +4,11 @@ import android.support.annotation.NonNull;
 
 import com.jmengxy.utildroid.data.source.local.LocalDataSource;
 import com.jmengxy.utildroid.data.source.remote.RemoteDataSource;
+import com.jmengxy.utildroid.models.GameEntity;
 import com.jmengxy.utildroid.models.LoginRequest;
 import com.jmengxy.utildroid.models.UserEntity;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -41,5 +44,10 @@ public class DataRepository implements DataSource {
                 .doFinally(() -> {
                     localDataSource.clearAllData();
                 });
+    }
+
+    @Override
+    public Single<List<GameEntity>> getGames() {
+        return remoteDataSource.getGames();
     }
 }

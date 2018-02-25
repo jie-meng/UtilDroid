@@ -22,7 +22,7 @@ import io.reactivex.subjects.Subject;
 public class LoadMoreRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     public interface ViewHolderManager {
-        RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent);
+        RecyclerView.ViewHolder onCreateItemViewHolder(ViewGroup parent, int viewType);
 
         RecyclerView.ViewHolder onCreateLoadingViewHolder(ViewGroup parent);
 
@@ -33,13 +33,14 @@ public class LoadMoreRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerVie
         void onBindLoadingViewHolder(RecyclerView.ViewHolder holder);
 
         void onBindNoMoreViewHolder(RecyclerView.ViewHolder holder);
+
+        int getViewType(Object data);
     }
 
     private static final int VISIBLE_THRESHOLD = 1;
 
-    private final int VIEW_TYPE_ITEM = 0;
-    private final int VIEW_TYPE_LOADING = 1;
-    private final int VIEW_TYPE_NO_MORE = 2;
+    private final int VIEW_TYPE_LOADING = 10001;
+    private final int VIEW_TYPE_NO_MORE = 10002;
 
     private ViewHolderManager viewHolderManager;
 
@@ -98,7 +99,7 @@ public class LoadMoreRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerVie
         } else if (viewType == VIEW_TYPE_NO_MORE) {
             return viewHolderManager.onCreateNoMoreViewHolder(parent);
         } else {
-            return viewHolderManager.onCreateItemViewHolder(parent);
+            return viewHolderManager.onCreateItemViewHolder(parent, viewType);
         }
     }
 
@@ -116,9 +117,9 @@ public class LoadMoreRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerVie
     @Override
     public int getItemViewType(int position) {
         if (noMore) {
-            return position < dataList.size() ? VIEW_TYPE_ITEM : VIEW_TYPE_NO_MORE;
+            return position < dataList.size() ? viewHolderManager.getViewType(dataList.get(position)) : VIEW_TYPE_NO_MORE;
         } else {
-            return position < dataList.size() ? VIEW_TYPE_ITEM : VIEW_TYPE_LOADING;
+            return position < dataList.size() ? viewHolderManager.getViewType(dataList.get(position)) : VIEW_TYPE_LOADING;
         }
     }
 

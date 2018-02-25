@@ -1,5 +1,6 @@
-package com.jmengxy.utildroid.workflows.discover;
+package com.jmengxy.utildroid.workflows.functions;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -9,24 +10,31 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jmengxy.utildroid.R;
+import com.jmengxy.utildroid.workflows.bluetooth.BluetoothActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import butterknife.Unbinder;
 
 /**
  * Created by jiemeng on 03/02/2018.
  */
 
-public class DiscoverFragment extends Fragment {
+public class FunctionsFragment extends Fragment {
 
     private Unbinder unbinder;
+
+    @OnClick(R.id.bluetooth)
+    void clickBluetooth() {
+        startActivity(new Intent(getContext(), BluetoothActivity.class));
+    }
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    public static DiscoverFragment newInstance() {
-        DiscoverFragment fragment = new DiscoverFragment();
+    public static FunctionsFragment newInstance() {
+        FunctionsFragment fragment = new FunctionsFragment();
         return fragment;
     }
 
@@ -41,6 +49,5 @@ public class DiscoverFragment extends Fragment {
     }
 
     private void init() {
-
     }
 }

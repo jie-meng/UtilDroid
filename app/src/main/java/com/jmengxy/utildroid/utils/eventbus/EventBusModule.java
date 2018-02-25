@@ -2,6 +2,8 @@ package com.jmengxy.utildroid.utils.eventbus;
 
 import android.content.Context;
 
+import com.jmengxy.utillib.architecture.eventbus.EventBus;
+
 import java.util.Set;
 
 import javax.inject.Singleton;

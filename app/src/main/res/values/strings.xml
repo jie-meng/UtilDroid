@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">UtilDroid</string>
     <string name="first_fragment">First Fragment</string>
-    <string name="nav_title_discover">Discover</string>
+    <string name="nav_title_games">Games</string>
+    <string name="nav_title_function">Functions</string>
     <string name="nav_title_bankcard">Bank Card</string>
     <string name="nav_title_rewards">Rewards</string>
     <string name="nav_title_profile">Profile</string>
@@ -21,4 +22,5 @@
     <string name="logout_message">Are you sure you want to log out?</string>
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
+    <string name="bluetooth">Bluetooth</string>
 </resources>

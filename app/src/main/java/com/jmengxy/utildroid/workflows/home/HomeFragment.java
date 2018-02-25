@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment implements OnBackPressedListener {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         unbinder = ButterKnife.bind(this, view);
         init();
-        setSelectedTab(HomeViewPagerAdapter.TAB.Discover);
+        setSelectedTab(HomeViewPagerAdapter.TAB.Games);
         return view;
     }
 
@@ -78,7 +78,9 @@ public class HomeFragment extends Fragment implements OnBackPressedListener {
 
     private HomeViewPagerAdapter.TAB getTab(int itemId) {
         switch (itemId) {
-            case R.id.action_discover:
+            case R.id.action_games:
+                return HomeViewPagerAdapter.TAB.Games;
+            case R.id.action_functions:
                 return HomeViewPagerAdapter.TAB.Discover;
             case R.id.action_bankcard:
                 return HomeViewPagerAdapter.TAB.BankCard;

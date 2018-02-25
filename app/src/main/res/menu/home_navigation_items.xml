@@ -2,9 +2,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_discover"
+        android:id="@+id/action_games"
+        android:icon="@drawable/ic_nav_games"
+        android:title="@string/nav_title_games"
+        app:showAsAction="always|withText" />
+    <item
+        android:id="@+id/action_functions"
         android:icon="@drawable/ic_nav_discover"
-        android:title="@string/nav_title_discover"
+        android:title="@string/nav_title_function"
         app:showAsAction="always|withText" />
     <item
         android:id="@+id/action_bankcard"

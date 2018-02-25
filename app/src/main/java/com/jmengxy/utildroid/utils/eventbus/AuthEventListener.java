@@ -2,6 +2,8 @@ package com.jmengxy.utildroid.utils.eventbus;
 
 import android.content.Context;
 
+import com.jmengxy.utillib.architecture.eventbus.EventBus;
+
 public class AuthEventListener implements EventBus.Listener {
     private Context context;
 
