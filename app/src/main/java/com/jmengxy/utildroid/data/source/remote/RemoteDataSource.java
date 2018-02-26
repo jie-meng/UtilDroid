@@ -1,6 +1,7 @@
 package com.jmengxy.utildroid.data.source.remote;
 
 
+import com.jmengxy.utildroid.models.GameCommentEntity;
 import com.jmengxy.utildroid.models.GameEntity;
 import com.jmengxy.utildroid.models.LoginRequest;
 import com.jmengxy.utildroid.models.UserEntity;
@@ -18,6 +19,7 @@ import retrofit2.Retrofit;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 import static com.jmengxy.utildroid.utils.eventbus.RemoteEvent.authTokenInvalidEvent;
 
@@ -39,6 +41,12 @@ public class RemoteDataSource {
     private interface GameApi {
         @GET("game/list")
         Single<Response<List<GameEntity>>> getGames();
+
+        @GET("game/detail/{id}")
+        Single<Response<GameEntity>> getGame(@Path("id") String gameId);
+
+        @GET("game/comments/{id}")
+        Single<Response<List<GameCommentEntity>>> getGameComments(@Path("id") String gameId);
     }
 
     private final EventBus eventBus;
@@ -70,6 +78,22 @@ public class RemoteDataSource {
                 .getGames()
                 .compose((SingleTransformer<? super Response<List<GameEntity>>, ? extends Response<List<GameEntity>>>) t1)
                 .compose((SingleTransformer<? super Response<List<GameEntity>>, ? extends List<GameEntity>>) t2);
+    }
+
+    public Single<GameEntity> getGame(String gameId) {
+        return gameApi
+                .getGame(gameId)
+                .compose(checkAuthFailure(GameEntity.class))
+                .compose(unwrap(GameEntity.class));
+    }
+
+    public Single<List<GameCommentEntity>> getGameComments(String gameId) {
+        Object t1 = checkAuthFailure(List.class);
+        Object t2 = unwrap(List.class);
+        return gameApi
+                .getGameComments(gameId)
+                .compose((SingleTransformer<? super Response<List<GameCommentEntity>>, ? extends Response<List<GameCommentEntity>>>) t1)
+                .compose((SingleTransformer<? super Response<List<GameCommentEntity>>, ? extends List<GameCommentEntity>>) t2);
     }
 
     private <T> SingleTransformer<Response<T>, Response<T>> checkAuthFailure(Class<T> clazz) {

@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.jmengxy.utildroid.R;
 import com.jmengxy.utildroid.app.UtilApplication;
 import com.jmengxy.utildroid.models.GameEntity;
+import com.jmengxy.utildroid.workflows.game.detail.GameDetailActivity;
 import com.jmengxy.utildroid.workflows.game.list.view_model.GamesAdapter;
 
 import java.util.List;
@@ -91,7 +92,7 @@ public class GameListFragment extends Fragment implements GameListContract.View 
 
         gamesAdapter = new GamesAdapter(getContext());
         gamesAdapter.setOnItemClickListener(gameEntity -> {
-            // TODO: 26/02/2018 detail page
+            startActivity(GameDetailActivity.getIntent(getContext(), gameEntity));
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(null);

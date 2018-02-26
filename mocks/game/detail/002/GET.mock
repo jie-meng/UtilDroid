@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+    "code": "0",
+    "message": "",
+    "data": 
+            {
+                "id": "002",
+                "name": "Castlevania",
+                "image-url": "https://cdn.vox-cdn.com/thumbor/qKVVkpoEtDDnoKhebiPi76XZza8=/0x0:1600x900/1200x800/filters:focal(672x322:928x578)/cdn.vox-cdn.com/uploads/chorus_image/image/53154657/349413_SotN.0.jpg",
+                "price": 1900
+            }
+}

@@ -23,4 +23,6 @@
     <string name="ok">OK</string>
     <string name="cancel">CANCEL</string>
     <string name="bluetooth">Bluetooth</string>
+    <string name="no_comments">No comments</string>
+    <string name="comments">Comments</string>
 </resources>

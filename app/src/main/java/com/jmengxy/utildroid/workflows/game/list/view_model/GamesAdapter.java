@@ -91,6 +91,7 @@ public class GamesAdapter extends RecyclerView.Adapter<GamesAdapter.GameViewHold
             super(inflater.inflate(R.layout.game_item_view, parent, false));
             ButterKnife.bind(this, itemView);
             this.context = context;
+            this.itemClickListener = itemClickListener;
         }
 
         public void bind(GameEntity gameEntity) {

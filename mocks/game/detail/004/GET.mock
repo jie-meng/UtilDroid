@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+    "code": "0",
+    "message": "",
+    "data": 
+            {
+                "id": "004",
+                "name": "Final Fantasy VII",
+                "image-url": "https://cdn.images.express.co.uk/img/dynamic/galleries/x701/238234.jpg",
+                "price": 2900
+            }
+}

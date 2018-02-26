@@ -1,5 +1,6 @@
 package com.jmengxy.utildroid.data.source;
 
+import com.jmengxy.utildroid.models.GameCommentEntity;
 import com.jmengxy.utildroid.models.GameEntity;
 import com.jmengxy.utildroid.models.LoginRequest;
 import com.jmengxy.utildroid.models.UserEntity;
@@ -19,4 +20,8 @@ public interface DataSource {
     Single<Object> logout();
 
     Single<List<GameEntity>> getGames();
+
+    Single<GameEntity> getGame(String gameId);
+
+    Single<List<GameCommentEntity>> getGameComments(String gameId);
 }

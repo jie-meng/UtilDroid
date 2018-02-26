@@ -1,12 +1,15 @@
 package com.jmengxy.utildroid.models;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by jiemeng on 24/02/2018.
  */
 
-public class GameEntity {
+public class GameEntity implements Parcelable {
 
     @SerializedName("id")
     String id;
@@ -22,6 +25,38 @@ public class GameEntity {
 
     public GameEntity() {
     }
+
+    protected GameEntity(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        imageUrl = in.readString();
+        price = in.readInt();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
+        dest.writeString(name);
+        dest.writeString(imageUrl);
+        dest.writeInt(price);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<GameEntity> CREATOR = new Creator<GameEntity>() {
+        @Override
+        public GameEntity createFromParcel(Parcel in) {
+            return new GameEntity(in);
+        }
+
+        @Override
+        public GameEntity[] newArray(int size) {
+            return new GameEntity[size];
+        }
+    };
 
     public String getId() {
         return id;

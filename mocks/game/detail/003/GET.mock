@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+    "code": "0",
+    "message": "",
+    "data": 
+            {
+                "id": "003",
+                "name": "Metroid",
+                "image-url": "https://metroidsamusreturns.nintendo.com/assets/icons/share_icon.jpg",
+                "price": 2200
+            }
+}

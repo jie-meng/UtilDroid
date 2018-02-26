@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+    "code": "0",
+    "message": "",
+    "data": 
+            {
+                "id": "005",
+                "name": "Dragon Quest Heros",
+                "image-url": "http://cdn.akamai.steamstatic.com/steam/apps/410850/header.jpg?t=1512022482",
+                "price": 1500
+            }
+}

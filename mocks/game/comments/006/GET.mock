@@ -1,0 +1,51 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+    "code": "0",
+    "message": "",
+    "data": 
+           [
+                {
+                    "name": "Nathan Wihnan",
+                    "avatar": "https://cf.ltkcdn.net/socialnetworking/images/std/168796-281x281-girl-swear-icon.png",
+                    "comment": "This game is lots of fun and feels like fire emblem. Lots to do and more strategy then you'd expect. Only issue I have is that the pricing structure for orbs and the RNG of summons don't make sense. Feels like I can't support the game financially even if I wanted to because I know I'd likely get nothing from any summoning pools I did and even the most expensive orb amount would only let you do a few summoning pools. They are generous with free orbs though."
+                },
+
+                {
+                    "name": "Eric Li",
+                    "avatar": "https://vignette.wikia.nocookie.net/avatar/images/c/ce/Aang_meditates.png/revision/latest?cb=20121119085519",
+                    "comment": "Really great game. I've been a fire emblem fan since the first game came out in NA. This version does the franchise justice while adding some new aspects to better suit a mobile on the go device! One major complaint I have though is the lack of things to do. The limited 3 times a day pvp and stamina prevents you from playing that much (especially the later missions that take 10+ stamina). You'd be able to play like 8 short (3minute) games a day which is severely limiting."
+                },
+
+                {
+                    "name": "Marshall Semeniuk",
+                    "avatar": "http://www.newsshare.in/wp-content/uploads/2017/04/Miniclip-8-Ball-Pool-Avatar-16.png",
+                    "comment": "I've never played any Fire Emblem before. This was shown to me by a buddy who has similar taste in games as me. This game is incredible; super fun. It's a great way to pass the time. The only thing I don't like is that you have to be connected to Internet all the time. I wish you could play offline."
+                },
+
+                {
+                    "name": "Peter Hesselgrave",
+                    "avatar": "https://cdn.pixabay.com/photo/2016/08/20/05/36/avatar-1606914_960_720.png",
+                    "comment": "Mostly good, but lagged occasionally. The pricing for unlocking potential to a 5 star costs way too many feathers. I feel if you could purchase feathers, then the pricing would seem a bit more fair, though a better solution would be to either slightly lower the amount needed or slightly raise the amount earned from things other than arena and events"
+                },
+
+                {
+                    "name": "Avi Krebs",
+                    "avatar": "http://pixdrive.com/wp-content/uploads/edd/2015/11/woman-avatar-4.png",
+                    "comment": "It's fun to pick up and play but limits of 10 teams of 4 ruins replayability considering how many playable characters there are. It's tedious swapping characters in and out, especially when you have spent time levelling some over others. Having an unlimited amount of teams or increasing the number of members per team would be very welcome. Otherwise, having so many characters left unused or having to sell is a big miss."
+                },
+
+                {
+                    "name": "William Gray",
+                    "avatar": "https://pbs.twimg.com/media/DWfvpZ4VwAAUyhU.jpg",
+                    "comment": "When first claering the missions it's fairly easy, but that's just to give new players a chance at free orbs and more rolls for 5 star heroes. The real challenges start at the lv40+ stages. Without a strategy, you WILL lose. But that's the fun part, that it's not easy."
+                },
+
+                {
+                    "name": "Eric Mills",
+                    "avatar": "http://images5.fanpop.com/image/photos/31100000/Aang-avatar-aang-31177445-341-416.jpg",
+                    "comment": "Best nintendo mobile title to have come out. It is engaging and its graphics are stunning. The characters are fun to play and bring back memories of the original fire emblem games. The story is nice and long and so are the paralogues. Not to mention the online quests are fun aswell. This is my favorite game to date."
+                }
+           ]
+}

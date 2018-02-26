@@ -35,6 +35,19 @@ public class AppUtils {
         Runtime.getRuntime().exit(0);
     }
 
+    public static boolean isPackageInstalled(Context context, String packagename) {
+        try {
+            context.getPackageManager().getPackageInfo(packagename, 0);
+            return true;
+        } catch (PackageManager.NameNotFoundException e) {
+            return false;
+        }
+    }
+
+    public static void startApplication(Context context, String packageName) {
+        context.startActivity(context.getPackageManager().getLaunchIntentForPackage(packageName));
+    }
+
     private static void killBackgroundProcesses(Context context, String applicationId) {
         ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
         List<ActivityManager.RunningAppProcessInfo> runningProcesses = manager

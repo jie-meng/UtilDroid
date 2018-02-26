@@ -4,6 +4,7 @@ import android.support.annotation.NonNull;
 
 import com.jmengxy.utildroid.data.source.local.LocalDataSource;
 import com.jmengxy.utildroid.data.source.remote.RemoteDataSource;
+import com.jmengxy.utildroid.models.GameCommentEntity;
 import com.jmengxy.utildroid.models.GameEntity;
 import com.jmengxy.utildroid.models.LoginRequest;
 import com.jmengxy.utildroid.models.UserEntity;
@@ -49,5 +50,15 @@ public class DataRepository implements DataSource {
     @Override
     public Single<List<GameEntity>> getGames() {
         return remoteDataSource.getGames();
+    }
+
+    @Override
+    public Single<GameEntity> getGame(String gameId) {
+        return remoteDataSource.getGame(gameId);
+    }
+
+    @Override
+    public Single<List<GameCommentEntity>> getGameComments(String gameId) {
+        return remoteDataSource.getGameComments(gameId);
     }
 }

@@ -1,5 +1,7 @@
 package com.jmengxy.utildroid.workflows.game.detail;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -8,7 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.jmengxy.utildroid.R;
-import com.jmengxy.utildroid.workflows.login.LoginFragment;
+import com.jmengxy.utildroid.models.GameEntity;
 import com.jmengxy.utillib.listeners.OnBackPressedListener;
 import com.jmengxy.utillib.utils.UiUtils;
 
@@ -17,6 +19,14 @@ import com.jmengxy.utillib.utils.UiUtils;
  */
 
 public class GameDetailActivity extends AppCompatActivity {
+
+    public static final String ARG_GAME_ENTITY = "arg_game_entity";
+
+    public static Intent getIntent(Context context, GameEntity gameEntity) {
+        Intent intent = new Intent(context, GameDetailActivity.class);
+        intent.putExtra(ARG_GAME_ENTITY, gameEntity);
+        return intent;
+    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -29,7 +39,7 @@ public class GameDetailActivity extends AppCompatActivity {
         UiUtils.setStatusBarColor(this, ContextCompat.getColor(this, R.color.dark_green));
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
         if (fragment == null) {
-            fragment = LoginFragment.newInstance();
+            fragment = GameDetailFragment.newInstance(getIntent().getParcelableExtra(ARG_GAME_ENTITY));
             UiUtils.replaceFragmentAndAddToBackStack(getSupportFragmentManager(), fragment, R.id.content_frame, null);
         }
     }

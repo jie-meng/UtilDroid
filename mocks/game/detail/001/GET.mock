@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+    "code": "0",
+    "message": "",
+    "data": 
+            {
+                "id": "001",
+                "name": "The Legend of Zelda",
+                "image-url": "https://cdn.images.dailystar.co.uk/dynamic/184/photos/778000/620x/5a745632e74a2_LegendofZeldaonNintendoSwitchsettomakeBIGchangeafterBreathoftheWildsuccess619697.jpg",
+                "price": 3000
+            }
+}

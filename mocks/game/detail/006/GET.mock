@@ -1,0 +1,14 @@
+HTTP/1.1 200 OK
+Content-Type: application/json; charset=utf-8
+
+{
+    "code": "0",
+    "message": "",
+    "data": 
+            {
+                "id": "006",
+                "name": "Fire Emblem Heroes",
+                "image-url": "https://cdn.images.express.co.uk/img/dynamic/143/590x/Fire-Emblem-Heroes-763302.jpg",
+                "price": 2000
+            }
+}
