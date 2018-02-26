@@ -15,6 +15,7 @@ import com.jmengxy.utillib.schedulers.SchedulerProvider;
 import javax.inject.Singleton;
 
 import dagger.Component;
+import okhttp3.OkHttpClient;
 
 /**
  * Created by jiemeng on 25/01/2018.
@@ -26,6 +27,8 @@ public interface AppComponent {
     Context getAppContext();
 
     EventBus getEventBus();
+
+    OkHttpClient getOkHttpClient();
 
     BluetoothHoster getBluetoothHoster();
 
