@@ -6,6 +6,7 @@ import com.jmengxy.utildroid.account_hoster.AccountHoster;
 import com.jmengxy.utildroid.data.source.DataSource;
 import com.jmengxy.utildroid.models.LoginRequest;
 import com.jmengxy.utildroid.models.UserEntity;
+import com.jmengxy.utildroid.utils.StringUtils;
 import com.jmengxy.utillib.schedulers.SchedulerProvider;
 
 import io.reactivex.SingleObserver;
@@ -71,7 +72,7 @@ public class LoginPresenter implements LoginContract.Presenter {
 
     @Override
     public void checkPassword() {
-        passwordCheckResult = loginRequest.getPassword() != null && loginRequest.getPassword().length() > 7;
+        passwordCheckResult = StringUtils.checkPassword(loginRequest.getPassword());
         view.showCheckPasswordResult(passwordCheckResult);
     }
 

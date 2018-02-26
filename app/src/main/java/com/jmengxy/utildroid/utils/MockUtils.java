@@ -32,7 +32,7 @@ public class MockUtils {
     public static void mockBluetoothHoster(BluetoothHoster mockBluetoothHoster) {
         Mockito.when(mockBluetoothHoster.discoverDevices()).thenAnswer(invocation ->
                 Observable.just(new BtDevice("11:22:33:44:55:66", "microphone"),
-                        new BtDevice("99:88:77:66:L55:44", "voicebox"))
+                        new BtDevice("99:88:77:66:55:44", "voicebox"))
                         .delay(500, TimeUnit.MILLISECONDS));
     }
 }

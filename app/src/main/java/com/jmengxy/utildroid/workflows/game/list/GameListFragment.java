@@ -94,6 +94,7 @@ public class GameListFragment extends Fragment implements GameListContract.View 
         gamesAdapter.setOnItemClickListener(gameEntity -> {
             startActivity(GameDetailActivity.getIntent(getContext(), gameEntity));
         });
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setItemAnimator(null);
         recyclerView.setAdapter(gamesAdapter);

@@ -10,7 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.jmengxy.utildroid.R;
-import com.jmengxy.utildroid.workflows.bluetooth.BluetoothActivity;
+import com.jmengxy.utildroid.workflows.bluetooth.BluetoothDevicesActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,7 +27,7 @@ public class FunctionsFragment extends Fragment {
 
     @OnClick(R.id.bluetooth)
     void clickBluetooth() {
-        startActivity(new Intent(getContext(), BluetoothActivity.class));
+        startActivity(new Intent(getContext(), BluetoothDevicesActivity.class));
     }
 
     @BindView(R.id.toolbar)
