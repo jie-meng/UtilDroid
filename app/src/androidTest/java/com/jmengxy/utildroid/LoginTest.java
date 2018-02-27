@@ -5,6 +5,8 @@ import android.support.test.espresso.ViewInteraction;
 import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
+import com.jmengxy.utildroid.utils.UIAutomatorUtils;
+import com.jmengxy.utildroid.utils.rules.CleanupDataRule;
 import com.jmengxy.utildroid.utils.rules.NetworkIdlingResourceRule;
 import com.jmengxy.utildroid.workflows.login.LoginActivity;
 
@@ -22,6 +24,7 @@ import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.jmengxy.utildroid.utils.EspressoUtils.isShowingPassword;
 import static com.jmengxy.utildroid.utils.EspressoUtils.waitUILong;
 import static com.jmengxy.utildroid.utils.EspressoUtils.waitUIShort;
+import static com.jmengxy.utildroid.utils.UtilDroidUtils.getApp;
 import static org.hamcrest.core.AllOf.allOf;
 import static org.hamcrest.core.IsNot.not;
 
@@ -37,6 +40,9 @@ public class LoginTest {
 
     @Rule
     public NetworkIdlingResourceRule networkIdlingResourceRule = new NetworkIdlingResourceRule();
+
+    @Rule
+    public CleanupDataRule cleanupDataRule = new CleanupDataRule();
 
     @Test
     public void login_happy_path() {
@@ -64,8 +70,30 @@ public class LoginTest {
         waitUIShort();
 
         onView(withText(R.string.invalid_password)).check(matches(isDisplayed()));
+    }
 
-        waitUILong();
+    @Test
+    public void switch_background_and_forground() {
+        init();
+
+        ViewInteraction username = onView(withId(R.id.ed_username));
+        ViewInteraction password = onView(withId(R.id.ed_password));
+
+
+        username.perform(click(), replaceText("jie-meng"));
+        password.perform(click(), replaceText("12345678"));
+
+        password.check(matches(isShowingPassword()));
+
+        onView(withId(R.id.text_input_password_toggle)).perform(click());
+
+        waitUIShort();
+
+        password.check(matches(not(isShowingPassword())));
+
+        UIAutomatorUtils.pressHomeAndRestartAppFromLauncher(getApp());
+
+        password.check(matches(not(isShowingPassword())));
     }
 
     private void init() {

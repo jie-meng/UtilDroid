@@ -61,4 +61,12 @@ public class DataRepository implements DataSource {
     public Single<List<GameCommentEntity>> getGameComments(String gameId) {
         return remoteDataSource.getGameComments(gameId);
     }
+
+    @Override
+    public Single<Object> clearData() {
+        return Single.create(e -> {
+            localDataSource.clearAllData();
+            e.onSuccess(new Object());
+        });
+    }
 }

@@ -24,4 +24,6 @@ public interface DataSource {
     Single<GameEntity> getGame(String gameId);
 
     Single<List<GameCommentEntity>> getGameComments(String gameId);
+
+    Single<Object> clearData();
 }

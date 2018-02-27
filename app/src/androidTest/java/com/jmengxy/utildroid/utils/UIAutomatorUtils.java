@@ -12,6 +12,7 @@ import android.support.test.uiautomator.UiSelector;
 import android.support.test.uiautomator.Until;
 import android.support.v7.widget.RecyclerView;
 
+import com.jmengxy.utildroid.R;
 import com.jmengxy.utillib.BuildConfig;
 
 import static org.hamcrest.core.IsNull.notNullValue;
@@ -25,7 +26,7 @@ public class UIAutomatorUtils {
 
     private static final long LAUNCH_TIMEOUT = 3000;
 
-    public static void pressHomeAndRestartAppFromLauncher(Context context, int backgroundDuration) {
+    public static void pressHomeAndRestartAppFromLauncher(Context context, String appName, int backgroundDuration) {
         UiDevice device = UiDevice.getInstance(InstrumentationRegistry.getInstrumentation());
         device.pressHome();
 
@@ -49,13 +50,13 @@ public class UIAutomatorUtils {
                 .resourceId("com.android.launcher3:id/apps_list_view")
                 .className(RecyclerView.class));
         try {
-            appsListView.scrollTextIntoView(context.getString(com.jmengxy.utillib.R.string.app_name));
+            appsListView.scrollTextIntoView(appName);
         } catch (UiObjectNotFoundException e) {
             e.printStackTrace();
             return;
         }
 
-        UiObject app = device.findObject(new UiSelector().description(context.getString(com.jmengxy.utillib.R.string.app_name)));
+        UiObject app = device.findObject(new UiSelector().description(appName));
         try {
             app.click();
         } catch (UiObjectNotFoundException e) {
@@ -68,6 +69,6 @@ public class UIAutomatorUtils {
     }
 
     public static void pressHomeAndRestartAppFromLauncher(Context context) {
-        pressHomeAndRestartAppFromLauncher(context, 0);
+        pressHomeAndRestartAppFromLauncher(context, context.getString(R.string.app_name), 0);
     }
 }

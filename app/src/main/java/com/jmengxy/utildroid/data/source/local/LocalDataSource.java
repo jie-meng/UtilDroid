@@ -20,6 +20,5 @@ public class LocalDataSource {
     }
 
     public void clearAllData() {
-
     }
 }
