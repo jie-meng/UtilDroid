@@ -22,7 +22,6 @@ import static android.support.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static android.support.test.espresso.matcher.ViewMatchers.withId;
 import static android.support.test.espresso.matcher.ViewMatchers.withText;
 import static com.jmengxy.utildroid.utils.EspressoUtils.isShowingPassword;
-import static com.jmengxy.utildroid.utils.EspressoUtils.waitUILong;
 import static com.jmengxy.utildroid.utils.EspressoUtils.waitUIShort;
 import static com.jmengxy.utildroid.utils.UtilDroidUtils.getApp;
 import static org.hamcrest.core.AllOf.allOf;
@@ -78,7 +77,6 @@ public class LoginTest {
 
         ViewInteraction username = onView(withId(R.id.ed_username));
         ViewInteraction password = onView(withId(R.id.ed_password));
-
 
         username.perform(click(), replaceText("jie-meng"));
         password.perform(click(), replaceText("12345678"));
