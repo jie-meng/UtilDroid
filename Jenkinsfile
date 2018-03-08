@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Test') {
              steps {
-                sh "./gradlew clean lintDevDebug checkDevDebug testDevDebug"
+                sh "./gradlew --info clean lintDevDebug checkDevDebug testDevDebug"
              }
         }
     }
