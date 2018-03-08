@@ -1,7 +1,4 @@
 pipeline {
-    agent {
-        label "android"
-    }
     stages {
         stage('Test') {
              steps {
