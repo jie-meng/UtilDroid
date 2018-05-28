@@ -16,7 +16,7 @@ public class DisplayUtils {
      * @param dp A value in dp (density independent pixels) unit. Which we need to convert into pixels
      * @return A float value to represent px equivalent to dp depending on device density
      */
-    public static float convertDpToPixel(Context context, int dp){
+    public static float convertDpToPixel(Context context, float dp){
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         float px = dp * ((float)metrics.densityDpi / DisplayMetrics.DENSITY_DEFAULT);
@@ -37,7 +37,7 @@ public class DisplayUtils {
         return dp;
     }
 
-    public static float convertSpToPixel(Context context, int sp) {
+    public static float convertSpToPixel(Context context, float sp) {
         Resources resources = context.getResources();
         DisplayMetrics metrics = resources.getDisplayMetrics();
         return sp * metrics.scaledDensity + 0.5f;
