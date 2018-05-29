@@ -13,7 +13,7 @@ import java.util.List;
  */
 
 public class AppUtils {
-    public static void restart(Context context, String applicationId) {
+    public static void restart(final Context context, String applicationId) {
         killBackgroundProcesses(context, applicationId);
         Runtime.getRuntime().addShutdownHook(new Thread() {
             @Override

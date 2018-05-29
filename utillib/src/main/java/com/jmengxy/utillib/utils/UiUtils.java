@@ -174,7 +174,7 @@ public class UiUtils {
     }
 
     public static void showOrHideProgressView(Activity activity, boolean showOrHide, @LayoutRes int viewProgressBar, @IdRes int viewProgressBarId) {
-        showOrHideProgressView(activity, activity.findViewById(android.R.id.content), showOrHide, viewProgressBar, viewProgressBarId);
+        showOrHideProgressView(activity, (ViewGroup) activity.findViewById(android.R.id.content), showOrHide, viewProgressBar, viewProgressBarId);
     }
 
     public static void showOrHideProgressView(Context context, ViewGroup viewGroup, boolean showOrHide, @LayoutRes int viewProgressBar, @IdRes int viewProgressBarId) {
@@ -244,10 +244,13 @@ public class UiUtils {
         final Window window = activity.getWindow();
         ValueAnimator valueAnimator = ValueAnimator.ofFloat(from, to);
         valueAnimator.setDuration(300);
-        valueAnimator.addUpdateListener(animation -> {
-            WindowManager.LayoutParams params = window.getAttributes();
-            params.alpha = (Float) animation.getAnimatedValue();
-            window.setAttributes(params);
+        valueAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                WindowManager.LayoutParams params = window.getAttributes();
+                params.alpha = (Float) animation.getAnimatedValue();
+                window.setAttributes(params);
+            }
         });
 
         valueAnimator.start();
@@ -270,25 +273,28 @@ public class UiUtils {
         }
     }
 
-    public static void doOnEditFocusChange(EditText editText, Action0 hasFocus, Action0 lostFocus) {
-        editText.setOnFocusChangeListener((v, focus) -> {
-            if (editText == null) {
-                return;
-            }
-
-            if (focus) {
-                if (hasFocus != null) {
-                    hasFocus.apply();
+    public static void doOnEditFocusChange(final EditText editText, final Action0 hasFocus, final Action0 lostFocus) {
+        editText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean focus) {
+                if (editText == null) {
+                    return;
                 }
-            } else {
-                if (lostFocus != null) {
-                    lostFocus.apply();
+
+                if (focus) {
+                    if (hasFocus != null) {
+                        hasFocus.apply();
+                    }
+                } else {
+                    if (lostFocus != null) {
+                        lostFocus.apply();
+                    }
                 }
             }
         });
     }
 
-    public static void doOnEditTextChange(EditText editText, Action1<String> action) {
+    public static void doOnEditTextChange(final EditText editText, final Action1<String> action) {
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -322,21 +328,24 @@ public class UiUtils {
         editText.setFilters(inputFilterList.toArray(new InputFilter[inputFilterList.size()]));
     }
 
-    public static void setTextViewDrawableRightOnClickListener(TextView textView, Action1<TextView> action) {
-        textView.setOnTouchListener((v, event) -> {
-            final int DRAWABLE_LEFT = 0;
-            final int DRAWABLE_TOP = 1;
-            final int DRAWABLE_RIGHT = 2;
-            final int DRAWABLE_BOTTOM = 3;
+    public static void setTextViewDrawableRightOnClickListener(final TextView textView, final Action1<TextView> action) {
+        textView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                final int DRAWABLE_LEFT = 0;
+                final int DRAWABLE_TOP = 1;
+                final int DRAWABLE_RIGHT = 2;
+                final int DRAWABLE_BOTTOM = 3;
 
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                if (event.getRawX() >= (textView.getRight() - textView.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width() - textView.getCompoundPaddingRight())) {
-                    action.apply(textView);
-                    return true;
+                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                    if (event.getRawX() >= (textView.getRight() - textView.getCompoundDrawables()[DRAWABLE_RIGHT].getBounds().width() - textView.getCompoundPaddingRight())) {
+                        action.apply(textView);
+                        return true;
+                    }
                 }
-            }
 
-            return false;
+                return false;
+            }
         });
     }
 
@@ -390,7 +399,7 @@ public class UiUtils {
         textView.setText(spannableStringBuilder);
     }
 
-    private static void makeLinkClickable(SpannableStringBuilder strBuilder, final URLSpan span, Action1<String> htmlLinkClickListener) {
+    private static void makeLinkClickable(SpannableStringBuilder strBuilder, final URLSpan span, final Action1<String> htmlLinkClickListener) {
         int start = strBuilder.getSpanStart(span);
         int end = strBuilder.getSpanEnd(span);
         int flags = strBuilder.getSpanFlags(span);

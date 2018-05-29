@@ -3,6 +3,7 @@ package com.jmengxy.utillib.views.fragment;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.jmengxy.utillib.R;
@@ -60,9 +61,12 @@ public abstract class FormFragment extends Fragment {
         if (snackbar == null) {
             snackbar = Snackbar.make(getMainLayout(), "", Snackbar.LENGTH_INDEFINITE)
                     .setActionTextColor(ContextCompat.getColor(getContext(), R.color.error_red))
-                    .setAction(getString(R.string.close), v -> {
-                        if (onErrorListener != null) {
-                            onErrorListener.apply(false, true);
+                    .setAction(getString(R.string.close), new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            if (onErrorListener != null) {
+                                onErrorListener.apply(false, true);
+                            }
                         }
                     });
         }

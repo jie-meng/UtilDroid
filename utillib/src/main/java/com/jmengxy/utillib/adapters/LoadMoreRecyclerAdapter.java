@@ -156,19 +156,25 @@ public class LoadMoreRecyclerAdapter<T> extends RecyclerView.Adapter<RecyclerVie
     }
 
     public void finishLoading() {
-        recyclerView.post(() -> {
-            if (loading) {
-                loading = false;
-                notifyItemRemoved(dataList.size());
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (loading) {
+                    loading = false;
+                    notifyItemRemoved(dataList.size());
+                }
             }
         });
     }
 
     public void startLoading() {
-        recyclerView.post(() -> {
-            if (!loading) {
-                loading = true;
-                notifyItemInserted(dataList.size());
+        recyclerView.post(new Runnable() {
+            @Override
+            public void run() {
+                if (!loading) {
+                    loading = true;
+                    notifyItemInserted(dataList.size());
+                }
             }
         });
     }

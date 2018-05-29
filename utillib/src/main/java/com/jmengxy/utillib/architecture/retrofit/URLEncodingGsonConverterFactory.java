@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 
 import com.google.gson.Gson;
 
+import java.io.IOException;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.net.URLEncoder;
@@ -38,10 +39,13 @@ public class URLEncodingGsonConverterFactory extends Converter.Factory {
     @Nullable
     @Override
     public Converter<?, String> stringConverter(Type type, Annotation[] annotations, Retrofit retrofit) {
-        return (Converter<Object, String>) value -> {
-            if (value instanceof CharSequence || value instanceof Boolean || value instanceof Character || value instanceof Number)
-                return value.toString();
-            return URLEncoder.encode(gson.toJson(value), "UTF-8");
+        return new Converter<Object, String>() {
+            @Override
+            public String convert(Object value) throws IOException {
+                if (value instanceof CharSequence || value instanceof Boolean || value instanceof Character || value instanceof Number)
+                    return value.toString();
+                return URLEncoder.encode(gson.toJson(value), "UTF-8");
+            }
         };
     }
 
