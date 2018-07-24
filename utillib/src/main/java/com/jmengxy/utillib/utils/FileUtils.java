@@ -32,21 +32,15 @@ public class FileUtils {
         });
     }
 
-    public static Single<String> writeFile(final String pathName) {
-        return Single.create(new SingleOnSubscribe<String>() {
+    public static Single<Object> writeFile(final String pathName, final String text) {
+        return Single.create(new SingleOnSubscribe<Object>() {
             @Override
-            public void subscribe(SingleEmitter<String> e) throws Exception {
-                File file = new File(pathName);
-                StringBuilder text = new StringBuilder();
-                BufferedReader br = new BufferedReader(new FileReader(file));
-                String line;
+            public void subscribe(SingleEmitter<Object> e) throws Exception {
+                FileOutputStream os = new FileOutputStream(new File(pathName));
+                os.write(text.getBytes());
+                os.close();
 
-                while ((line = br.readLine()) != null) {
-                    text.append(line);
-                    text.append('\n');
-                }
-
-                e.onSuccess(text.toString());
+                e.onSuccess(new Object());
             }
         });
     }
