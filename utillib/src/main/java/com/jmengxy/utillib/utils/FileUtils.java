@@ -12,6 +12,45 @@ import io.reactivex.SingleEmitter;
 import io.reactivex.SingleOnSubscribe;
 
 public class FileUtils {
+
+    public static Single<String> readFile(final String pathName) {
+        return Single.create(new SingleOnSubscribe<String>() {
+            @Override
+            public void subscribe(SingleEmitter<String> e) throws Exception {
+                File file = new File(pathName);
+                StringBuilder text = new StringBuilder();
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String line;
+
+                while ((line = br.readLine()) != null) {
+                    text.append(line);
+                    text.append('\n');
+                }
+
+                e.onSuccess(text.toString());
+            }
+        });
+    }
+
+    public static Single<String> writeFile(final String pathName) {
+        return Single.create(new SingleOnSubscribe<String>() {
+            @Override
+            public void subscribe(SingleEmitter<String> e) throws Exception {
+                File file = new File(pathName);
+                StringBuilder text = new StringBuilder();
+                BufferedReader br = new BufferedReader(new FileReader(file));
+                String line;
+
+                while ((line = br.readLine()) != null) {
+                    text.append(line);
+                    text.append('\n');
+                }
+
+                e.onSuccess(text.toString());
+            }
+        });
+    }
+
     public static Single<String> readSDCardFile(final String fileName) {
         return Single.create(new SingleOnSubscribe<String>() {
             @Override

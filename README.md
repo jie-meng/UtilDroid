@@ -32,7 +32,7 @@
 
         ```
         dependencies {
-                compile 'com.github.jie-meng:UtilDroid:V1.0.6'
+                implementation 'com.github.jie-meng:UtilDroid:V1.0.7'
         }
         ```
 
