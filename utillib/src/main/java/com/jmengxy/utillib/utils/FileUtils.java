@@ -2,6 +2,8 @@ package com.jmengxy.utillib.utils;
 
 import android.os.Environment;
 
+import com.jmengxy.utillib.functors.Action1;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -77,5 +79,23 @@ public class FileUtils {
                 e.onSuccess(new Object());
             }
         });
+    }
+
+    public static void walk(String path, Action1<File> action, boolean recursive) {
+        File root = new File(path);
+        File[] list = root.listFiles();
+
+        if (list == null) return;
+
+        for (File f : list) {
+            if (f.isDirectory()) {
+                if (recursive) {
+                    walk(f.getAbsolutePath(), action, recursive);
+                }
+                action.apply(f.getAbsoluteFile());
+            } else {
+                action.apply(f.getAbsoluteFile());
+            }
+        }
     }
 }
