@@ -32,7 +32,7 @@
 
         ```
         dependencies {
-                implementation 'com.github.jie-meng:UtilDroid:V1.0.9'
+                implementation 'com.github.jie-meng:UtilDroid:V1.1.0'
         }
         ```
 
@@ -42,7 +42,7 @@
         <dependency>
             <groupId>com.github.jie-meng</groupId>
             <artifactId>UtilDroid</artifactId>
-            <version>V1.0.9</version>
+            <version>V1.1.0</version>
         </dependency>
         ```
 

@@ -1,5 +1,6 @@
 package com.jmengxy.utillib.utils;
 
+import android.content.Context;
 import android.os.Environment;
 
 import com.jmengxy.utillib.functors.Action1;
@@ -8,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.InputStreamReader;
 
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
@@ -29,7 +31,7 @@ public class FileUtils {
                     text.append('\n');
                 }
 
-                e.onSuccess(text.toString());
+                e.onSuccess(text.toString().substring(0, text.length() - 1));
             }
         });
     }
@@ -43,6 +45,24 @@ public class FileUtils {
                 os.close();
 
                 e.onSuccess(new Object());
+            }
+        });
+    }
+
+    public static Single<String> readAssetsFile(final Context context, final String fileName) {
+        return Single.create(new SingleOnSubscribe<String>() {
+            @Override
+            public void subscribe(SingleEmitter<String> e) throws Exception {
+                BufferedReader br = new BufferedReader(new InputStreamReader(context.getAssets().open(fileName)));
+                StringBuilder text = new StringBuilder();
+                String line;
+
+                while ((line = br.readLine()) != null) {
+                    text.append(line);
+                    text.append('\n');
+                }
+
+                e.onSuccess(text.toString().substring(0, text.length() - 1));
             }
         });
     }
@@ -62,7 +82,7 @@ public class FileUtils {
                     text.append('\n');
                 }
 
-                e.onSuccess(text.toString());
+                e.onSuccess(text.toString().substring(0, text.length() - 1));
             }
         });
     }
