@@ -33,3 +33,4 @@ proguard/
 .gradle
 .DS_Store
 .externalNativeBuild
+/tags
