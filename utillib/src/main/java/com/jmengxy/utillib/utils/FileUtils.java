@@ -6,7 +6,9 @@ import android.os.Environment;
 import com.jmengxy.utillib.functors.Action1;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
@@ -18,22 +20,23 @@ import io.reactivex.SingleOnSubscribe;
 
 public class FileUtils {
 
-    public static Single<String> readFile(final String pathName) {
+    private static final int BUFFER_SIZE = 1024;
+
+    //read file from android data directory
+    public static Single<String> readFile(final Context context, final String pathName) {
         return Single.create(new SingleOnSubscribe<String>() {
             @Override
             public void subscribe(SingleEmitter<String> e) {
                 try {
-                    File file = new File(pathName);
-                    StringBuilder text = new StringBuilder();
-                    BufferedReader br = new BufferedReader(new FileReader(file));
-                    String line;
-
-                    while ((line = br.readLine()) != null) {
-                        text.append(line);
-                        text.append('\n');
+                    FileInputStream fileInputStream = context.openFileInput(pathName);
+                    byte[] b = new byte[BUFFER_SIZE];
+                    int n;
+                    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                    while ((n = fileInputStream.read(b)) != -1) {
+                        byteArrayOutputStream.write(b, 0, n);
                     }
-
-                    e.onSuccess(text.toString().substring(0, text.length() - 1));
+                    byte content[] = byteArrayOutputStream.toByteArray();
+                    e.onSuccess(new String(content));
                 } catch (IOException e1) {
                     e.onError(e1);
                 }
@@ -41,21 +44,23 @@ public class FileUtils {
         });
     }
 
-    public static Single<Object> writeFile(final String pathName, final String text) {
-        return Single.create(new SingleOnSubscribe<Object>() {
-            @Override
-            public void subscribe(SingleEmitter<Object> e) {
-                try {
-                    FileOutputStream os = new FileOutputStream(new File(pathName));
-                    os.write(text.getBytes());
-                    os.close();
+    //write file to android data directory
+    public static Single<Object> writeFile(final Context context, final String pathName, final String text) {
+        return Single.create(
+                new SingleOnSubscribe<Object>() {
+                    @Override
+                    public void subscribe(SingleEmitter<Object> e) {
+                        try {
+                            FileOutputStream fileOutputStream = context.openFileOutput(pathName, Context.MODE_PRIVATE);
+                            fileOutputStream.write(text.getBytes());
+                            fileOutputStream.close();
 
-                    e.onSuccess(new Object());
-                } catch (IOException e1) {
-                    e.onError(e1);
-                }
-            }
-        });
+                            e.onSuccess(new Object());
+                        } catch (IOException e1) {
+                            e.onError(e1);
+                        }
+                    }
+                });
     }
 
     public static Single<String> readAssetsFile(final Context context, final String fileName) {
